@@ -1,0 +1,36 @@
+<div class="instructions">
+    <div class="internal-border">
+        <div class="header-section">
+            <img src="assets/logo.png" height="45" alt="">
+            <div>The Lost Relics of the Cartogropher</div>
+        </div>
+        <div class="body-section">
+            <div>Instructions</div>
+            <div class="instruction">
+                An ancient cartographer left behind a mysterious map that, when deciphered, reveals the location of six relics hidden across famous cities worldwide. These relics hold secrets to forgotten knowledge and power, each representing a unique quality: Wisdom, Bravery, Honor, Knowledge, Resilience, and Unity. You, as the player, are the chosen adventurer tasked with locating these relics, answering trivia, and solving clues to piece together the map that will lead to the ultimate glory.
+            </div>
+            <div class="rules">
+                <div>Rules</div>
+                <div class="instruction">
+                    1. Timer starts when you click on the continue button below.
+                </div>
+                <div class="instruction">
+                    2. You have to reach all the 6 monuments as early as possible.
+                </div>
+                <div class="instruction">
+                    3. Use the input box suggestions to travel across the globe. When you select the correct suggestion you will solve the riddle.
+                </div>
+                <div class="instruction">
+                    4. After 3 incorrect choices for a riddle, you will be eligible to take a hint. If you choose to take the hint, 1 minute penalty will be added to your time.
+                </div>
+            </div>
+            <div class="name-input">
+                <div>Your Name</div>
+                <div class="input-element-container">
+                    <input class="input-element" type="text" [(ngModel)]="name">
+                </div>
+                <div class="continue" (click)="continue()">Continue</div>
+            </div>
+        </div>
+    </div>
+</div>

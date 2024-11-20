@@ -1,0 +1,718 @@
+@font-face {
+    font-family: 'Hunt';
+    src: URL('../../assets/GothicDivision.ttf') format('truetype');
+}
+
+#mapContainer{
+    height: 100%;
+    width: 100%;
+}
+
+.sidebar{
+    width: 24rem;
+    background-color: #EDC2A3;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    background-size: cover;
+}
+
+.scroll{
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    z-index: 5;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.roll{
+    z-index: 3;
+    background-color: #60380B;
+    border-top: 0.1rem solid #432400;
+    border-bottom: 0.1rem solid #432400;
+    height: 1rem;
+    width: 33rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 2rem;
+    box-sizing: border-box;
+}
+
+.roll-leaderboard{
+    z-index: 3;
+    background-color: #60380B;
+    border-top: 0.1rem solid #432400;
+    border-bottom: 0.1rem solid #432400;
+    height: 1rem;
+    width: 57rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 2rem;
+    box-sizing: border-box;
+}
+
+.gold-side{
+    height: 1.8rem;
+    box-sizing: border-box;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.gold-circle{
+    height: 1.5rem;
+    width: 2.2rem;
+    border: 0.1rem solid #d68b00;
+    background-color: #F1A417;
+}
+
+.left-c{
+    border-top-left-radius: 1rem;
+    border-bottom-left-radius: 1rem;
+}
+
+.right-c{
+    border-top-right-radius: 1rem;
+    border-bottom-right-radius: 1rem;
+}
+
+.separator{
+    height: 1rem;
+    width: 0.5rem;
+    background-color: #F1A417;
+    border-top: 0.1rem solid #d68b00;
+    border-bottom: 0.1rem solid #d68b00;
+}
+
+.left-s{
+    border-right: 0.1rem solid #d68b00;
+}
+
+.right-s{
+    border-left: 0.1rem solid #d68b00;
+}
+
+.separator-right{
+    height: 1rem;
+    width: 1rem;
+    background-color: #F1A417;
+    border-top: 0.1rem solid #d68b00;
+    border-left: 0.1rem solid #d68b00;
+    border-bottom: 0.1rem solid #d68b00;
+}
+
+
+.header-section{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.header-section:hover{
+    cursor: pointer;
+}
+
+.game-logo{
+    display: flex;
+}
+
+.game-heading{
+    font-size: 1.3rem;
+    font-family: 'Hunt';
+    color: #60380B;
+}
+
+.dropdown-button{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    transform: rotateX(180deg);
+    transition: transform 0.3s ease;
+}
+
+.up {
+    transform: rotateX(0deg);
+}
+
+.down {
+    transform: rotateX(180deg); 
+}
+
+.open{
+    height: auto;
+}
+
+.close{
+    height: 0rem;
+}
+
+.input-header{
+    font-size: 1.4rem;
+    font-family: 'Hunt';
+    font-weight: 400;
+    color: #60380B;
+    margin: 0.6rem 0rem;
+}
+
+.input-guide-text{
+    font-size: 0.8rem Helvetica Neue, Helvetica, Arial, sans-serif;
+    font-family: 'Hunt';
+    color: #60380B;
+}
+
+.input-element-container{
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0.8rem 0rem;
+    padding: 0.4rem;
+    border: 1px solid #60380B;
+    border-radius: 0.3rem;
+
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.input-element{
+    height: 1.5rem;
+    font-size: 1rem;
+    font-family: 'Hunt';
+    flex: 1;
+    border: 0;
+    outline: none;
+    margin-left: 0.5rem;
+    background-color: #EDC2A3;
+}
+
+.body-section-item{
+    border-top: 0.05rem solid #60380B;
+    border-bottom: 0.05rem solid #60380B;
+    margin-top: 0.75rem;
+}
+
+.riddle-container{
+    margin-top: 1rem;
+}
+
+.riddle-item{
+    display: flex;
+}
+
+.riddle-section:hover{
+    cursor: pointer;
+    /* background-color: #dbb295; */
+}
+
+.line-container {
+    position: relative;
+    display: flex;
+    margin-left: 1rem;
+}
+
+.line {
+    height: 100%;
+    border-left: 1px dashed #60380B; 
+    position: absolute;
+    box-sizing: border-box;
+}
+
+.dot {
+    width: 15px;
+    height: 15px;
+    background-color: #EDC2A3;
+    border: 2px solid #60380B;
+    border-radius: 50%;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.solved-dot{
+    height: 16px;
+    width: 16px;
+    border-radius: 8px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: navy;
+    font-size: 1.5rem;
+}
+
+.riddle-section{
+    margin-left: 1rem;
+    border-top: 1px solid #d68b00;
+    flex: 1;
+    padding: 0rem 1rem;
+}
+
+.info-button{
+    background-color: #EDC2A3;
+    font-family: 'Hunt';
+    font-size: 1.4rem;
+    border: 0.1rem solid #60380B;
+    border-radius: 4rem;
+    height: 2.3rem;
+    width: 2.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 3;
+}
+
+.info-button-2{
+    background-color: #EDC2A3;
+    font-family: 'Hunt';
+    font-size: 1.4rem;
+    border: 0.1rem solid #60380B;
+    border-radius: 4rem;
+    height: 2.3rem;
+    width: 2.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 4rem;
+    right: 1rem;
+    z-index: 3;
+}
+
+.info-button-3{
+    background-color: #EDC2A3;
+    font-family: 'Hunt';
+    font-size: 1.4rem;
+    border: 0.1rem solid #60380B;
+    border-radius: 4rem;
+    height: 2.3rem;
+    width: 2.3rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: absolute;
+    top: 7rem;
+    right: 1rem;
+    z-index: 3;
+}
+
+.info-button:hover{
+    cursor: pointer;
+}
+.info-button-2:hover{
+    cursor: pointer;
+}
+.info-button-3:hover{
+    cursor: pointer;
+}
+
+.info{
+    background-color: #EDC2A3;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    font-family: 'Hunt';
+    font-size: 1.4rem;
+    position: absolute;
+    top: 0rem;
+    right: 0rem;
+    height: 100%;
+    z-index: 5;
+    box-sizing: border-box;
+    transition: width 0.3s ease;
+}
+
+.info-open{
+    width: 30%;
+}
+
+.info-closed{
+    width: 0;
+}
+
+.collapse-button{
+    height: 3rem;
+    width: 2rem;
+    padding: 0.5rem;
+    border: 0.1rem solid #60380B;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    box-sizing: border-box;
+    border-top-right-radius: 0.5rem;
+    border-bottom-right-radius: 0.5rem;
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
+.collapse-button:hover{
+    cursor: pointer;
+}
+
+.image-collpase{
+    transform: rotate(270deg);
+}
+
+.info-heading{
+    display: flex;
+    align-items: center;
+}
+
+.info-heading-text{
+    margin-left: 2rem;
+    color: #60380B;
+}
+
+.riddle-stats{
+    display: flex;
+}
+
+.riddle-heading{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.riddle-heading-text{
+    font-size: 1.4rem;
+    font-family: 'Hunt';
+    font-weight: 400;
+    color: #60380B;
+    margin: 0.6rem 0rem;
+}
+
+.unlocked{
+    background-color: #889D37;
+    border: 0.1rem solid #432400;
+    height: 1.8rem;
+    width: 1.8rem;
+    padding: 0.1rem;
+    border-radius: 2rem;
+    box-sizing: border-box;
+}
+
+.locked{
+    background-color: #800020;
+    border: 0.1rem solid #432400;
+    height: 1.8rem;
+    width: 1.8rem;
+    padding: 0.1rem;
+    border-radius: 2rem;
+    box-sizing: border-box;
+}
+
+.riddle-text{
+    font: 1rem 'Hunt';
+    color: #60380B;
+}
+
+.riddle-answer{
+    font: 1rem 'Hunt';
+    color: #800020;
+}
+
+.riddle-collapsible{
+    transition: height 0.3ms ease;
+}
+
+.riddle-open{
+    flex: 1;
+    padding-bottom: 0.5rem;
+}
+
+.riddle-close{
+    height: 0rem;
+}
+
+.autocomplete-suggestions-container{
+    position: absolute;
+    left: 4.5rem;
+    top: 17.5rem;
+    width: 23.9rem;
+    background-color: #EDC2A3;
+    border-top: 0.05rem solid #432400;
+    box-sizing: border-box;
+    z-index: 5;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.autocomplete-suggestion{
+    height: 2rem;
+    font: 1rem;
+    width: 23.9rem;
+    font-family: 'Hunt';
+    display: flex;
+    align-items: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 0.5rem;
+    box-sizing: border-box;
+    border-bottom: 0.05rem  solid #432400;
+    border-left: 0.05rem solid #432400;
+    border-right: 0.05rem solid #432400;
+    color: #60380B;
+}
+
+.autocomplete-suggestion:hover{
+    background-color: #dbb295;
+    cursor: pointer;
+}
+
+.z-index{
+    z-index: 1000;
+}
+
+.colored-toast{
+    background-color: #EDC2A3 !important;
+}
+
+.riddle-hint{
+    font: 1rem 'Hunt';
+    color: #9e6700;
+}
+
+.hint-title{
+    font-size: 1rem;
+    font-family: 'Hunt';
+    background-color: #F1A417;
+    color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.4rem;
+    border-radius: 0.9rem;
+    margin-right: 0.6rem;
+    border: 1px solid #d68b00;
+}
+
+.hint-title:hover{
+    background-color: #d78c00;
+}
+
+.cross{
+    margin-right: 0.2rem;
+    margin-left: 0.2rem;
+}
+
+.cross:hover{
+    cursor: pointer;
+}
+
+.rules{
+    margin: 2rem;
+    display: flex;
+    flex-direction: column;
+    color: #60380B;
+}
+
+.timer{
+    border-top: 0.05rem solid #432400;
+    margin-top: 1rem;
+    padding-top: 1rem;
+    padding-bottom: 0.5rem;
+    font: 1.2rem 'Hunt';
+    color: #60380B;
+}
+
+.final-leaderboard{
+    position: fixed;
+    top: 20%;
+    left: 20%;
+}
+
+.document{
+    width: 48rem;
+    background-color: #EDC2A3;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    flex-direction: column;
+    padding: 1.5rem;
+    margin-left: 3rem;
+    align-items: center;
+}
+
+.congratulations{
+    font: 1.3rem 'Hunt';
+    color: #60380B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 1rem;
+}
+
+.information-text{
+    font: 0.9rem 'Hunt';
+    color: #60380B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.information-text-explore{
+    font: 0.9rem "Hunt";
+    color: #403d3d;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.information-text-explore-left{
+    font: 0.9rem "Hunt";
+    color: #403d3d;
+    display: flex;
+    align-items: center;
+    padding-left: 1rem;
+}
+
+.title-complete{
+    margin-top: 1.5rem;
+    font: 1.5rem 'Hunt';
+    color: #800020;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.time-complete{
+    font: 1.2rem 'Hunt';
+    color: #60380B;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+}
+
+.leaderboard{
+    margin-top: 3rem;
+    display: flex;
+    flex-direction: column;
+    font: 1.2rem 'Hunt';
+    color: #60380B;
+    align-items: center;
+}
+
+.table-entry{
+    font: 0.9rem 'Hunt';
+}
+
+.explore{
+    font: 1.2rem 'Hunt';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #403d3d;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+}
+
+.explanation{
+    font: 0.9rem 'Hunt';
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #60380B;
+    margin-top: 1rem;
+    margin-bottom: 0.5rem;
+    text-align: center;
+}
+
+.continue{
+    background-color: #60380B;
+    font: 1rem 'Hunt';
+    color: #fff;
+    height: 2rem;
+    width: 20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.4rem;
+    margin-top: 1rem;
+}
+
+.continue:hover{
+    cursor: pointer;
+}
+
+.highlight-element {
+    border: 0.1rem solid #800020; 
+    box-shadow: 0 0 0 #d68b00;
+    background-color: #d78c00;
+    box-sizing: border-box;
+    animation: pulse 3s 1;
+  }
+  
+  @keyframes pulse {
+    0% {
+      transform: scale(1);
+      border: 0.1rem solid #800020; 
+      box-shadow: 0 0 0 #d68b00;
+      background-color: #d78c00;
+    }
+    50% {
+      transform: scale(1.05);
+      border: 0.1rem solid #800020; 
+      box-shadow: 0 0 10px #d68b00;
+      background-color: #d78c00;
+    }
+    100% {
+      transform: scale(1);
+      border: 0.1rem solid #800020; 
+      box-shadow: 0 0 0 #d68b00;
+      background-color: #d78c00;
+    }
+  }
+
+  .info-window{
+    position: fixed;
+    bottom: 9%;
+    right: 5%;
+    border: 0.5rem solid #432400;
+  }
+
+  .document-location{
+    width: 20rem;
+    background-color: #EDC2A3;
+    padding: 1rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .roll-location-info{
+    z-index: 3;
+    background-color: #60380B;
+    border-top: 0.1rem solid #432400;
+    border-bottom: 0.1rem solid #432400;
+    height: 1rem;
+    width: 28rem;
+    box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border-radius: 2rem;
+    box-sizing: border-box;
+  }
+
+
+
+
+
+
+

@@ -1,0 +1,231 @@
+<div id="mapContainer" #mapContainer></div>
+
+<div class="info-button" (click)="toggleInfoWindow()" title="Instruction">
+    i
+</div>
+
+<div class="info-button-2" (click)="handleMusic()" title="Sound">
+    <img *ngIf="isMusicPlaying" src="assets/play.png" height="20" alt="">
+    <img *ngIf="!isMusicPlaying" src="assets/mute.png" height="20" alt="">
+</div>
+
+<div class="info-button-3" (click)="refresh()" title="Restart">
+    <img src="assets/restart.png" height="20" alt="">
+</div>
+
+<div class="info" [ngClass]="{'info-open': (infoWindowOpen), 'info-closed': !(infoWindowOpen)}">
+    <div *ngIf="infoWindowOpen">
+        <div class="info-heading">
+            <div class="collapse-button" (click)="toggleInfoWindow()">
+                <img class="image-collpase" src="assets/dropdown.png" height="25" width="25" alt="">
+            </div>
+            <div class="info-heading-text">
+                Instructions
+            </div>
+        </div>
+        <div>
+            <img src="assets/banner.png" height="160">
+        </div>
+
+        <div class="rules">
+            <div>Rules</div>
+            <div class="instruction">
+                1. Timer has already started.
+            </div>
+            <div class="instruction">
+                2. You have to reach all the 6 monuments as early as possible.
+            </div>
+            <div class="instruction">
+                3. Use the input box suggestions to travel across the globe. When you select the correct suggestion you will solve the riddle.
+            </div>
+            <div class="instruction">
+                4. After 3 incorrect choices for a riddle, you will be eligible to take a hint. If you choose to take the hint, 1 minute penalty will be added to your time.
+            </div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="!leaderboardOpen" class="scroll">
+    <div class="roll">
+        <div class="gold-side">
+            <div class="gold-circle left-c"></div>
+            <div class="separator left-s"></div>
+        </div>
+        <div class="gold-side">
+            <div class="separator right-s"></div>
+            <div class="gold-circle right-c"></div>
+        </div>
+    </div>
+    <div class="sidebar">
+        <div class="header-section" (click)="toggleSidebar()">
+            <div class="game-logo" >
+                <img src="assets/logo.png" height="15" alt="">
+                <div class="game-heading">The Lost Relics of the Cartogropher</div>
+            </div>
+        
+            <div class="dropdown-button" [ngClass]="{'down': !(isSidebarCollapsed), 'up': (isSidebarCollapsed)}">
+                <img src="assets/dropdown.png" height="25" alt="">
+            </div>
+        </div>
+
+        <div class="timer">
+            <div *ngIf="!gameCompleted">Time Elapsed: {{ formattedTime }}</div>
+            <div *ngIf="gameCompleted">Completed In: {{ formattedTime }}</div>
+        </div>
+    
+        
+    
+        <div class="body-section" [ngClass]="{'open': !(isSidebarCollapsed), 'close': isSidebarCollapsed}">
+            <div class="body-section-item">
+                <div *ngIf="!isSidebarCollapsed" class="input-section">
+                    <div class="input-header">Navigator</div>
+                    <div class="input-guide-text">Select the monument that you think is the answer to the riddle using this navigator </div>
+        
+                    <div class="input-element-container">
+                        <img src="assets/search.png" height="30" alt="">
+                        <input class="input-element" type="text" placeholder="Enter a location" (keyup)="changeHandler($event)" [(ngModel)]="query">
+                        <img class="cross" src="assets/cross.png" height="15" alt="" (click)="clearText()">
+                    </div>
+
+                    <div *ngIf="showSuggestions">
+                        <div class="autocomplete-suggestions-container">
+                            <div *ngFor="let suggestion of autocompleteResponseList" class="autocomplete-suggestion" (click)="geocode(suggestion)">
+                                {{ suggestion.description }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isSidebarCollapsed && !gameCompleted">
+                <div class="riddle-container">
+
+                    <div *ngFor="let riddle of riddles" class="riddle-item" (click)="openRiddle(riddle.index)" [ngClass]="{'highlight-element': riddle.index == currentIndex}">
+                        <div class="line-container">
+                            <div class="line"></div>
+                            <div class="dot">
+                                <div class="solved-dot">
+                                    {{ riddle.solved ? '&#x2713;' : ''}}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="riddle-section">
+                            <div class="riddle-heading">
+                                <div class="riddle-heading-text">Relic {{riddle.index + 1}}</div>
+                                <div class="riddle-stats">
+                                    <div *ngIf="riddle.numberOfAttempts >= 3 && !riddle.solved" class="hint-title" (click)="openHint(riddle.index)"> {{ riddle.tookHint ? "Hint Used" : "Get Hint" }}</div>
+                                    <div *ngIf="riddle.numberOfAttempts >= 3 && riddle.solved && riddle.tookHint" class="hint-title"> Hint Used</div>
+                                    <img class="unlocked" *ngIf="riddle.unlocked" src="assets/unlocked1.png" height="20" alt="">
+                                    <img class="locked" *ngIf="!riddle.unlocked" src="assets/locked1.png" height="20" alt="">
+                                </div>
+                            </div>
+                            
+                            <div class="riddle-collapsible" [ngClass]="{'riddle-open': (riddle.unlocked && riddle.index == currentIndex && currentlyOpen), 'riddle-answer': !(riddle.unlocked && riddle.index == currentIndex && currentlyOpen)}">
+                                <div *ngIf="(riddle.unlocked && riddle.index == currentIndex && currentlyOpen)">
+                                    <div class="riddle-text">
+                                        "{{riddle.riddleLine1}}
+                                    </div>
+                                    <div class="riddle-text">
+                                        {{riddle.riddleLine2}}
+                                    </div>
+                                    <div class="riddle-text">
+                                        {{riddle.riddleLine3}}
+                                    </div>
+                                    <div class="riddle-text">
+                                        {{riddle.riddleLine4}}"
+                                    </div>
+
+                                    <div *ngIf="riddle.numberOfAttempts >= 3 && riddle.tookHint" class="riddle-hint">Hint: {{riddle.hint}} </div>
+                                    <div *ngIf="riddle.solved" class="riddle-answer">Answer: {{riddle.answer}} </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="!isSidebarCollapsed && gameCompleted">
+                <div class="explore-section">
+                    <div class="explore">Explore More Locations!</div>
+                    <div class="information-text-explore-left">Explore more such iconic monuments and cities using the 3D Immersive Google Maps! Some of our suggestions are:</div>
+                    <div class="information-text-explore-left">1. Basilica Sagrada Familia, Barcelona, Spain</div>
+                    <div class="information-text-explore-left">2. Stonehenge, UK</div>
+                    <div class="information-text-explore-left">3. Colloseum, Italy</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="roll">
+        <div class="gold-side">
+            <div class="gold-circle left-c"></div>
+            <div class="separator left-s"></div>
+        </div>
+        <div class="gold-side">
+            <div class="separator right-s"></div>
+            <div class="gold-circle right-c"></div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="leaderboardOpen" class="final-leaderboard">
+    <div class="roll-leaderboard">
+        <div class="gold-side">
+            <div class="gold-circle left-c"></div>
+            <div class="separator left-s"></div>
+        </div>
+        <div class="gold-side">
+            <div class="separator right-s"></div>
+            <div class="gold-circle right-c"></div>
+        </div>
+    </div>
+
+    <div class="document">
+        <div class="congratulations" >Congratulations {{name}}!</div>
+        <div class="information-text" >You’ve successfully completed The Lost Relics of the Cartographer! Your journey across iconic landmarks and ancient riddles has earned you an honored title. Let’s celebrate your achievement:</div>
+        <div class="title-complete">You are {{title}}!</div>
+        <div class="time-complete" >Your Time: {{ formattedTime }}</div>
+
+        <div class="explanation">{{explanation}}</div>
+
+        <!-- <div class="leaderboard">
+            <div class="title"> Leaderboard </div>
+            <div class="table">
+                <div class="table-entry">1. Urmil 09:32</div>
+                <div class="table-entry">2. Urmil 09:32</div>
+                <div class="table-entry">3. Urmil 09:32</div>
+            </div>
+        </div> -->
+
+        <div class="explore-section">
+            <div class="explore">Explore More Locations!</div>
+            <div class="information-text-explore">The journey doesn’t end here. Unlock the wonders of the world with Google Maps 3D Immersive View! Explore famous landmarks, hidden gems, and breathtaking destinations right from your screen. Dive deeper into history, culture, and architecture like never before.</div>
+            <div class="information-text-explore" >Start your next exploration with these must-see locations:</div>
+            <div class="information-text-explore" >Basilica Sagrada Familia, Barcelona, Spain</div>
+            <div class="information-text-explore" >Stonehenge, UK</div>
+            <div class="information-text-explore" >Colloseum, Rome, Italy</div>
+            <div class="information-text-explore" >And many more waiting for you to uncover!</div>
+                
+        </div>
+        <div class="continue" (click)="closeLeaderboard()" >Okay</div>
+    </div>
+
+    <div class="roll-leaderboard">
+        <div class="gold-side">
+            <div class="gold-circle left-c"></div>
+            <div class="separator left-s"></div>
+        </div>
+        <div class="gold-side">
+            <div class="separator right-s"></div>
+            <div class="gold-circle right-c"></div>
+        </div>
+    </div>
+</div>
+
+<div *ngIf="isLocationInfoOpen" class="info-window">
+    <div class="document-location">
+        <div class="congratulations" >{{infoWindowLine1}}</div>
+        <div class="information-text" >{{infoWindowLine2}}</div>
+        <div class="continue" (click)="closeLocationInfoWindow()">Close</div>
+    </div>
+</div>
+
+
+

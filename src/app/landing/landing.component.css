@@ -1,0 +1,108 @@
+@font-face {
+    font-family: 'Hunt';
+    src: URL('../../assets/GothicDivision.ttf') format('truetype');
+}
+
+.instructions{
+    background-color: #EDC2A3;
+    height: 100%;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #60380B;
+}
+
+.header-section{
+    font: 3rem 'Hunt';
+    display: flex;
+    justify-content: center;
+    color: #60380B;
+    margin: 2rem;
+}
+
+.body-section{
+    font: 1.7rem 'Hunt';
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.internal-border{
+    height: 90%;
+    width: 95%;
+    border: 0.8rem double #60380B;
+}
+
+.instruction{
+    padding-left: 3rem;
+    padding-right: 3rem;
+    text-align: center;
+    font-size: 1.2rem;
+}
+
+.rules{
+    margin-top: 2rem;
+    width: 60%;
+    display: flex;
+    flex-direction: column;
+    align-items:center;
+}
+
+.continue{
+    background-color: #60380B;
+    color: #fff;
+    height: 3rem;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 0.4rem;
+}
+
+.continue:hover{
+    cursor: pointer;
+}
+
+.continue:active{
+    background-color: #351f07;
+}
+
+.info-heading-text{
+    color: #60380B;
+}
+
+.input-element-container{
+    width: 100%;
+    box-sizing: border-box;
+    margin: 0.8rem 0rem;
+    padding: 0.4rem;
+    border: 1px solid #60380B;
+    border-radius: 0.3rem;
+
+    display: flex;
+    align-items: center;
+    box-sizing: border-box;
+}
+
+.input-element{
+    height: 1.5rem;
+    font-size: 1rem;
+    font-family: 'Hunt';
+    flex: 1;
+    border: 0;
+    outline: none;
+    margin-left: 0.5rem;
+    background-color: #EDC2A3;
+}
+
+.name-input{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 25%;
+    border: 1px solid #60380B;
+    padding: 1rem;
+    margin-top: 3rem;
+    border-radius: 0.4rem;
+}
