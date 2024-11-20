@@ -259,16 +259,10 @@ export class MapComponent implements OnInit, OnDestroy{
   geocode = async (suggestion: any) => {
     this.showSuggestions = false;
     this.query = suggestion.description;
-    let riddle = this.riddles[this.currentlySolvedIndex + 1];
-    let placeIDs = riddle.place_id;
-
     //@ts-ignore
     let { Geocoder } = await google.maps.importLibrary("geocoding");
     //@ts-ignore
     let { Marker3DElement } = await google.maps.importLibrary("maps3d");
-    //@ts-ignore
-    // let { PlacesService } = await google.maps.importLibrary("places");
-    // let servicePlaces = new PlacesService(this.map);
 
     let geocoder = new Geocoder();
     let that = this;
@@ -280,41 +274,19 @@ export class MapComponent implements OnInit, OnDestroy{
         let location = {lat, lng};
         that.flyCameraTo(location);
 
-        let nearbySearchRequest = {
-          location: {lat,lng},
-          radius: '1000',
-          type: ['restaurant', 'cafe']
-        }
         let marker = new Marker3DElement({
           position: {lat, lng, altitude: 100},
           altitudeMode: 'RELATIVE_TO_GROUND',
           extruded: true,
         })
+
         that.markerRef.push(marker)
         that.map.append(marker)
-
-        // servicePlaces.search(nearbySearchRequest, function(results: any, status: any){
-        //   // if (status == google.maps.places.PlacesServiceStatus.OK) {
-        //   //   setTimeout(()=>{
-        //   //     for(let result of results){
-        //   //       let locationOfPOI = {
-        //   //         lat: result.geometry.location.lat(),
-        //   //         lng: result.geometry.location.lng()
-        //   //       }
-
-        //   //       // let marker = new Marker3DElement({
-        //   //       //   position: {...locationOfPOI, altitude: 100},
-        //   //       //   altitudeMode: 'RELATIVE_TO_GROUND',
-        //   //       //   extruded: true,
-        //   //       //   title: result.name
-        //   //       // })
-        //   //       // that.markerRef.push(marker)
-        //   //       // that.map.append(marker)
-        //   //     }
-        //   //   }, 10000)
-        //   // }
-        // })
     })
+
+    let riddle = this.riddles[this.currentlySolvedIndex + 1];
+    if(riddle){
+      let placeIDs = riddle.place_id;
 
     if(placeIDs.includes(suggestion.place_id)){
       this.celebrate();
@@ -336,7 +308,6 @@ export class MapComponent implements OnInit, OnDestroy{
           this.explanation = this.getTitle(this.elapsedTime).explanation
           this.leaderboardOpen = true
         }, 12000)
-        
       }
       if(this.currentlySolvedIndex + 1 < 6){
         this.riddles[this.currentlySolvedIndex+1].unlocked = true;
@@ -357,6 +328,8 @@ export class MapComponent implements OnInit, OnDestroy{
       })
       this.riddles[this.currentIndex]['numberOfAttempts'] = this.riddles[this.currentIndex]['numberOfAttempts'] + 1;
     }
+    }
+    
   }
 
   flyCameraTo(location: any){
@@ -450,34 +423,27 @@ export class MapComponent implements OnInit, OnDestroy{
   refresh(){
     this.currentIndex = 0;
     this.loadMap();
+    this.musicService.playMusic();
     
     this.elapsedTime = 0;
     this.clearMarkers();
-
-    this.name = localStorage.getItem("name");
-    this.map.flyCameraTo({
-      endCamera: {
-        center: { lat: 46.232562147959406,  lng: 24.59387890539589, altitude: 20000000 },
-        tilt: 2,
-        range: 5000
-      },
-      durationMillis: 10000
-    })
     this.riddles = [
       {
-          "index": 0, 
-          "riddleLine1": "In a harbor stands a lady so grand,",
-          "riddleLine2": "A symbol of freedom, with a torch in hand.",
-          "riddleLine3": "Gifted from friends across the sea,",
-          "riddleLine4": "She welcomes all to the land of the free.",
-          "answer": "The Statue of Liberty",
-          "solved": false,
-          "unlocked": true,
-          "timeTaken": "",
-          "place_id": ["ChIJPTacEpBQwokRKwIlDXelxkA"],
-          "numberOfAttempts": 0,
-          "hint": "A gift from France, this lady with a torch greets ships arriving in New York Harbor.",
-          "tookHint": false
+        "index": 0, 
+        "riddleLine1": "In a harbor stands a lady so grand,",
+        "riddleLine2": "A symbol of freedom, with a torch in hand.",
+        "riddleLine3": "Gifted from friends across the sea,",
+        "riddleLine4": "She welcomes all to the land of the free.",
+        "answer": "The Statue of Liberty",
+        "solved": false,
+        "unlocked": true,
+        "timeTaken": "",
+        "place_id": ["ChIJPTacEpBQwokRKwIlDXelxkA"],
+        "numberOfAttempts": 0,
+        "hint": "A gift from France, this lady with a torch greets ships arriving in New York Harbor.",
+        "tookHint": false,
+        "infoWindow1": "RIGHT on!",
+        "infoWindow2": "Did you know that the Crown has 7 Rays, which represent the seven continents and oceans of the world."
       },
       {
         "index": 1, 
@@ -492,7 +458,11 @@ export class MapComponent implements OnInit, OnDestroy{
         "place_id": ["ChIJLU7jZClu5kcR4PcOOO6p3I0"],
         "numberOfAttempts": 0,
         "hint": "An iron lattice tower in Paris, built for the 1889 World's Fair, and a global icon of France.",
-        "tookHint": false
+        "tookHint": false,
+        "infoWindow1": "Bon Travail",
+        "infoWindow2": `There’s a Champagne bar at the top.
+          If you're brave enough to climb the stairs to the top of the tower, reward yourself with a glass of bubbly from the Champagne Bar. There's nothing like a bit of celebratory sparkle to accompany the spectacular views.
+          To get to the top, you’ll have to climb 1,665 steps`
       }
     ,
       {
@@ -508,22 +478,26 @@ export class MapComponent implements OnInit, OnDestroy{
           "place_id": ["ChIJ8T1GpMGOGGARDYGSgpooDWw"],
           "numberOfAttempts": 0,
           "hint": "Tokyo’s oldest temple, famous for its red gate, giant lantern, and Nakamise Street market.",
-          "tookHint": false
+          "tookHint": false,
+          "infoWindow1": "Yoku Yatta",
+          "infoWindow2": "Coin tossing is a popular tradition at the Sensoji Temple. Carry a 5 yen coin symbolizes good luck in Japan!"
       },
       {
           "index": 3, 
-          "riddleLine1": "In a desert where pharaohs sleep,",
-          "riddleLine2": "A towering structure, ancient and steep.",
-          "riddleLine3": "Built with stones and secrets old,",
-          "riddleLine4": "The last of the wonders, timeless and bold.",
-          "answer": "The Great Pyramid of Giza",
+          "riddleLine1": "A royal home, both grand and old,",
+          "riddleLine2": "With guards in red, so proud and bold.",
+          "riddleLine3": "Its gates have seen processions and cheers,",
+          "riddleLine4": "Find your clue where history appears.",
+          "answer": "Buckingham Palace",
           "solved": false,
           "unlocked": false,
           "timeTaken": "",
-          "place_id": ["ChIJGymPrIdFWBQRJCSloj8vDIE"],
+          "place_id": ["ChIJtV5bzSAFdkgRpwLZFPWrJgo"],
           "numberOfAttempts": 0,
-          "hint": "The largest pyramid in Egypt, built for Pharaoh Khufu, and the only surviving wonder of the ancient world.",
-          "tookHint": false
+          "hint": "This iconic residence is known for the Changing of the Guard, a grand spectacle outside its gates. It’s home to British monarchs and a symbol of London’s regal heritage.",
+          "tookHint": false,
+          "infoWindow1": "Top Notch! Aced it!!",
+          "infoWindow2": "Over 50,000 guests are invited to the palace each year, do you fancy being one of them?"
       },
       {
           "index": 4, 
@@ -538,7 +512,9 @@ export class MapComponent implements OnInit, OnDestroy{
           "place_id": ["ChIJ1UCDJ1NgLxMRtrsCzOHxdvY"],
           "numberOfAttempts": 0,
           "hint": "A Baroque masterpiece in Rome where throwing a coin ensures your return to the Eternal City.",
-          "tookHint": false
+          "tookHint": false,
+          "infoWindow1": "Bravo!!",
+          "infoWindow2": "Every second, the fountain pumps out around 170 litres of water! Don't Worry, The water isn’t wasted as it is constantly being recycled! All of the money thrown into the fountain goes to charity"
       },
       {
           "index": 5, 
@@ -553,9 +529,22 @@ export class MapComponent implements OnInit, OnDestroy{
           "place_id": ["ChIJ49XqJV2uEmsRPsTAF7eOlGg","Ei9TeWRuZXkgSGFyYm91ciBCcmlkZ2UsIFRoZSBSb2NrcyBOU1csIEF1c3RyYWxpYSIuKiwKFAoSCQWuyBWLrhJrEZ-11J32HAwvEhQKEgmzj122Qq4SaxFgzTIWaH0BBQ"],
           "numberOfAttempts": 0,
           "hint": "An iconic bridge in Australia, connecting the Sydney Opera House and the city skyline, often nicknamed 'The Coathanger.'",
-          "tookHint": false
+          "tookHint": false,
+          "infoWindow1": "Good on Ya!",
+          "infoWindow2": "Welcome to the world's heaviest steel arch bridge Nicknamed 'the Coathanger' because of its arched design,"
       }
     ];
+
+    this.name = localStorage.getItem("name");
+    this.map.flyCameraTo({
+      endCamera: {
+        center: { lat: 46.232562147959406,  lng: 24.59387890539589, altitude: 20000000 },
+        tilt: 2,
+        range: 5000
+      },
+      durationMillis: 10000
+    })
+
     setTimeout(()=>{
       this.startTimer();
     }, 10000)
