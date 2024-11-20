@@ -427,6 +427,7 @@ export class MapComponent implements OnInit, OnDestroy{
     
     this.elapsedTime = 0;
     this.clearMarkers();
+    this.gameCompleted = false;
     this.riddles = [
       {
         "index": 0, 
